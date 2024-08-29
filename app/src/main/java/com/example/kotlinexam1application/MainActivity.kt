@@ -1,11 +1,16 @@
 package com.example.kotlinexam1application
 
+import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.room.util.query
 import com.example.kotlinexam1application.activity.AddInfoActivity
 import com.example.kotlinexam1application.adapter.InformationAdapter
 import com.example.kotlinexam1application.databinding.ActivityMainBinding
@@ -31,6 +36,8 @@ class MainActivity : AppCompatActivity() {
 
         initFloatClick()
         setRecycleView()
+        filterData()
+        searchSite()
     }
 
     private fun initFloatClick()
@@ -53,5 +60,59 @@ class MainActivity : AppCompatActivity() {
         passList = initDB(this).passDAO().passRead()
         passAdapter!!.dataChange(passList)
         super.onResume()
+    }
+
+    private fun searchSite()
+    {
+        binding.searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener,
+            android.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onQueryTextChange(newText: String): Boolean {
+                searchFilter(newText)
+                passAdapter!!.notifyDataSetChanged()
+                return false
+            }
+
+        })
+
+    }
+
+    fun searchFilter(text:String)
+    {
+        for(item in passList)
+        {
+            if(item.siteName.lowercase().contains(text.lowercase()))
+            {
+                passList.add(item)
+            }
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun filterData()
+    {
+        binding.filterBtn.setOnClickListener {
+
+            val dialog = Dialog(this)
+            dialog.setContentView(R.layout.filter_dialog)
+            val aToz:TextView = dialog.findViewById(R.id.aToz)
+            val zToa:TextView = dialog.findViewById(R.id.zToa)
+
+            aToz.setOnClickListener {
+                passList.sortBy { it.siteName }
+                passAdapter!!.notifyDataSetChanged()
+                dialog.dismiss()
+            }
+            zToa.setOnClickListener{
+                passList.sortByDescending { it.siteName }
+                passAdapter!!.notifyDataSetChanged()
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
     }
 }

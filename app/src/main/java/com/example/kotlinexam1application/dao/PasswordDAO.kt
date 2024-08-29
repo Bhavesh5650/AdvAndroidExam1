@@ -14,7 +14,7 @@ interface PasswordDAO {
     fun passInsert(model:PasswordEntity)
 
     @Update
-    fun passUpdate(model: MutableList<PasswordEntity>)
+    fun passUpdate(model: PasswordEntity)
 
     @Delete
     fun passDelete(model: PasswordEntity)

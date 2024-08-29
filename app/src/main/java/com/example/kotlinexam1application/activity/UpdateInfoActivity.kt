@@ -1,5 +1,6 @@
 package com.example.kotlinexam1application.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ class UpdateInfoActivity : AppCompatActivity() {
     var passList = mutableListOf<PasswordEntity>()
     private var adapter:InformationAdapter?=null
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -43,13 +45,13 @@ class UpdateInfoActivity : AppCompatActivity() {
         val model = PasswordEntity(siteName = siteName.toString(), email = email.toString(), password = password.toString(), category = category.toString())
 
         binding.infoUpdateBtn.setOnClickListener {
-            adapter!!.update(this)
-            adapter!!.dataChange(passList)
+            initDB(this).passDAO().passUpdate(model)
         }
 
         binding.infoDeleteBtn.setOnClickListener {
-            adapter!!.delete(this)
-            adapter!!.delete(this)
+
+            initDB(this).passDAO().passDelete(model)
+            adapter!!.notifyDataSetChanged()
         }
     }
 

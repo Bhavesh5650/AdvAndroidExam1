@@ -52,14 +52,4 @@ class InformationAdapter(private var passList: MutableList<PasswordEntity>) : Ad
         passList = list
         notifyDataSetChanged()
     }
-
-    fun delete(context: Context)
-    {
-        initDB(context).passDAO().passUpdate(passList)
-    }
-
-    fun update(context: Context)
-    {
-        initDB(context).passDAO().passUpdate(passList)
-    }
 }

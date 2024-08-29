@@ -46,6 +46,8 @@ class AddInfoActivity : AppCompatActivity() {
             val model = PasswordEntity(siteName = siteName, email = email, password = password, category = category)
 
             initDB(this).passDAO().passInsert(model)
+
+            finish()
         }
     }
 }
