@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.KotlinExam1Application" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:fontFamily">@font/lato_regular</item>
+    </style>
+
+    <style name="Theme.KotlinExam1Application" parent="Base.Theme.KotlinExam1Application" />
+
+    <style name="cardTheme">
+        <item name="cardBackgroundColor">#26000000</item>
+    </style>
+
+    <style name="iconTheme">
+        <item name="android:tint">@color/black</item>
+    </style>
+
+    <style name="backTheme">
+        <item name="android:backgroundTint">#26000000</item>
+    </style>
+</resources>
