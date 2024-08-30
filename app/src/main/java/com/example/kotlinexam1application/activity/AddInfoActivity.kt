@@ -43,11 +43,32 @@ class AddInfoActivity : AppCompatActivity() {
             val password = binding.setPasswordEdt.text.toString()
             val category = binding.setCategoryEdt.text.toString()
 
-            val model = PasswordEntity(siteName = siteName, email = email, password = password, category = category)
-
-            initDB(this).passDAO().passInsert(model)
-
-            finish()
+            if(siteName.isEmpty())
+            {
+                binding.siteNameLayout.isErrorEnabled = true
+                binding.siteNameLayout.error = "Site Name Is Required"
+            }
+            else if(email.isEmpty())
+            {
+                binding.emailLayout.isErrorEnabled = true
+                binding.emailLayout.error = "Email Is Required"
+            }
+            else if(password.isEmpty())
+            {
+                binding.passwordLayout.isErrorEnabled = true
+                binding.passwordLayout.error = "Password Is Required"
+            }
+            else if(category.isEmpty())
+            {
+                binding.categoryLayout.isErrorEnabled = true
+                binding.categoryLayout.error = "Category Is Required"
+            }
+            else
+            {
+                val model = PasswordEntity(siteName = siteName, email = email, password = password, category = category)
+                initDB(this).passDAO().passInsert(model)
+                finish()
+            }
         }
     }
 }
