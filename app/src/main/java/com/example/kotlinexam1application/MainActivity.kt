@@ -3,11 +3,14 @@ package com.example.kotlinexam1application
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.room.util.query
@@ -40,6 +43,13 @@ class MainActivity : AppCompatActivity() {
         searchSite()
     }
 
+    override fun onResume() {
+
+        passList = initDB(this).passDAO().passRead()
+        passAdapter!!.dataChange(passList)
+        super.onResume()
+    }
+
     private fun initFloatClick()
     {
         binding.infoFlotBtn.setOnClickListener{
@@ -55,12 +65,7 @@ class MainActivity : AppCompatActivity() {
         binding.infoRv.adapter = passAdapter
     }
 
-    override fun onResume() {
 
-        passList = initDB(this).passDAO().passRead()
-        passAdapter!!.dataChange(passList)
-        super.onResume()
-    }
 
     private fun searchSite()
     {
@@ -73,7 +78,6 @@ class MainActivity : AppCompatActivity() {
             @SuppressLint("NotifyDataSetChanged")
             override fun onQueryTextChange(newText: String): Boolean {
                 searchFilter(newText)
-                passAdapter!!.notifyDataSetChanged()
                 return false
             }
 
@@ -83,13 +87,16 @@ class MainActivity : AppCompatActivity() {
 
     fun searchFilter(text:String)
     {
+        val filteredList = mutableListOf<PasswordEntity>()
+
         for(item in passList)
         {
             if(item.siteName.lowercase().contains(text.lowercase()))
             {
-                passList.add(item)
+                filteredList.add(item)
             }
         }
+        passAdapter!!.dataChange(filteredList)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -99,17 +106,22 @@ class MainActivity : AppCompatActivity() {
 
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.filter_dialog)
-            val aToz:TextView = dialog.findViewById(R.id.aToz)
-            val zToa:TextView = dialog.findViewById(R.id.zToa)
+            dialog.setCanceledOnTouchOutside(false)
+            val aToz:CardView = dialog.findViewById(R.id.aToz)
+            val zToa:CardView = dialog.findViewById(R.id.zToa)
+            val dialogCancelBtn:ImageView = dialog.findViewById(R.id.dialogCancelBtn)
 
             aToz.setOnClickListener {
-                passList.sortBy { it.siteName }
+                passList.sortBy { it.email }
                 passAdapter!!.notifyDataSetChanged()
                 dialog.dismiss()
             }
             zToa.setOnClickListener{
-                passList.sortByDescending { it.siteName }
+                passList.sortByDescending { it.email }
                 passAdapter!!.notifyDataSetChanged()
+                dialog.dismiss()
+            }
+            dialogCancelBtn.setOnClickListener {
                 dialog.dismiss()
             }
             dialog.show()

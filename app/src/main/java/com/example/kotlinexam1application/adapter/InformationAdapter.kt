@@ -34,10 +34,11 @@ class InformationAdapter(private var passList: MutableList<PasswordEntity>) : Ad
 
         holder.binding.setSiteNameRv.text = passList[position].siteName
         holder.binding.setEmailRv.text = passList[position].email
-        holder.binding.setSiteFirstTxtRv.text = passList[position].siteName.first().toString()
+        holder.binding.setSiteFirstTxtRv.text = passList[position].siteName.first().toString().uppercase()
 
         holder.binding.cardBackground.setOnClickListener {
             val intent = Intent(holder.itemView.context,UpdateInfoActivity::class.java)
+            intent.putExtra("passId",passList[position].passId)
             intent.putExtra("siteName",passList[position].siteName)
             intent.putExtra("email",passList[position].email)
             intent.putExtra("password",passList[position].password)

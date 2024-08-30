@@ -3,4 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="cloud">#23A7FD</color>
+    <color name="btnColor">#FEB64D</color>
 </resources>
