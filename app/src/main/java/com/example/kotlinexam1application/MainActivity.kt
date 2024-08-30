@@ -112,12 +112,12 @@ class MainActivity : AppCompatActivity() {
             val dialogCancelBtn:ImageView = dialog.findViewById(R.id.dialogCancelBtn)
 
             aToz.setOnClickListener {
-                passList.sortBy { it.email }
+                passList.sortBy { it.siteName }
                 passAdapter!!.notifyDataSetChanged()
                 dialog.dismiss()
             }
             zToa.setOnClickListener{
-                passList.sortByDescending { it.email }
+                passList.sortByDescending { it.siteName }
                 passAdapter!!.notifyDataSetChanged()
                 dialog.dismiss()
             }
